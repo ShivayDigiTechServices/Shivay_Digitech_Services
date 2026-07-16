@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivay Digitech - Digital Notebook</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f6fa; color: #333; display: flex; flex-direction: column; height: 100vh; }
+        
+        /* Brand Header */
+        header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        header h1 { font-size: 20px; letter-spacing: 0.5px; }
+        header p { font-size: 12px; color: #70a1ff; }
+
+        /* Main Workspace Split */
+        .workspace { display: flex; flex: 1; overflow: hidden; }
+
+        /* Left Sidebar - Notes List & Categories */
+        .sidebar { width: 30%; background: #ffffff; border-right: 1px solid #dcdde1; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 15px; border-bottom: 1px solid #f1f2f6; display: flex; justify-content: space-between; align-items: center; }
+        .sidebar-header h3 { font-size: 16px; color: #2f3542; }
+        .btn-add { background: #2ed573; color: white; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        
+        .notes-list { flex: 1; overflow-y: auto; padding: 10px; }
+        .note-item { padding: 12px; background: #f8f9fa; border-left: 4px solid #1e3c72; border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; position: relative; }
+        .note-item:hover { background: #f1f2f6; }
+        .note-item.active { background: #e8f0fe; border-left-color: #1e90ff; }
+        .note-item h4 { font-size: 14px; color: #2f3542; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .note-item span { font-size: 11px; color: #a4b0be; display: block; margin-top: 4px; }
+        .btn-delete { position: absolute; right: 10px; top: 12px; background: none; border: none; color: #ff4757; font-weight: bold; cursor: pointer; font-size: 12px; display: none; }
+        .note-item:hover .btn-delete { display: block; }
+
+        /* Right Content Editor Panel */
+        .editor-container { width: 70%; background: #ffffff; display: flex; flex-direction: column; padding: 25px; }
+        .note-title-input { font-size: 22px; font-weight: bold; border: none; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px; margin-bottom: 15px; outline: none; color: #2f3542; width: 100%; }
+        .note-title-input:focus { border-bottom-color: #1e3c72; }
+        
+        /* Real Notebook Lining Effect */
+        .note-textarea { flex: 1; border: none; resize: none; outline: none; font-size: 15px; line-height: 28px; color: #57606f; background: linear-gradient(transparent, transparent 27px, #e4e7eb 27px); background-size: 100% 28px; width: 100%; padding-top: 5px; }
+
+        /* Bottom Controls Bar */
+        .editor-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 15px; border-top: 1px solid #f1f2f6; }
+        .btn-action { padding: 8px 16px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .btn-save { background: #1e3c72; color: white; border: none; }
+        .btn-download { background: #57606f; color: white; border: none; }
+
+        /* Responsive Layout for Mobile Phones */
+        @media (max-width: 768px) {
+            .workspace { flex-direction: column; }
+            .sidebar { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid #dcdde1; }
+            .editor-container { width: 100%; height: 60%; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Portal Banner -->
+    <header>
+        <div>
+            <h1>Shivay Digitech Services</h1>
+            <p>Smart Revision Notebook Systems</p>
+        </div>
+        <div style="text-align: right; font-size: 12px;">
+            Mode: <strong style="color: #2ed573;">Cloud Sync Active</strong>
+        </div>
+    </header>
+
+    <!-- Main Section Structure -->
+    <div class="workspace">
+        
+        <!-- SIDEBAR: List of all study notes -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>My Topics / Chapters</h3>
+                <button class="btn-add" onclick="createNewNote()">+ New Note</button>
+            </div>
+            <div class="notes-list" id="notes-list-box">
+                <!-- Javascript will inject list of notes dynamically here -->
+            </div>
+        </div>
+
+        <!-- MAIN EDITOR: Writing/Reading Space -->
+        <div class="editor-container">
+            <input type="text" id="editor-title" class="note-title-input" placeholder="Enter Chapter/Topic Title...">
+            <textarea id="editor-body" class="note-textarea" placeholder="Start typing your exam content or revision notes here..."></textarea>
+            
+            <div class="editor-footer">
+                <button class="btn-action btn-download" onclick="downloadNoteAsText()">📥 Download TXT File</button>
+                <button class="btn-action btn-save" onclick="saveActiveNote()">💾 Save Changes</button>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    // Pre-loaded database notes (Aap isme aur content badha sakte hain)
+    let studyNotes = [
+        {
+            id: 1,
+            title: "HPGK: Rig Veda & Kiratas Dynasty",
+            body: "1. According to Rig Veda, Shambara was a very powerful king of the Kiratas tribe.\n2. Shambara possessed 99 strong mountain forts located between the Beas and Yamuna rivers.\n3. He fought a fierce 40-year-long war against the Aryan King Divodas.\n4. Divodas was effectively assisted by Varchi in this legendary ancient war."
+        },
+        {
+            id: 2,
+            title: "Audumbaras Ancient Numismatics",
+            body: "1. The Mahabharata text testifies that the Audumbaras were direct descendants of Sage Vishwamitra.\n2. Copper and silver coins of the Audumbaras tribe have been discovered across Jwalamukhi, Pathankot, and Hoshiarpur regions.\n3. Dynamic scholar Panini associated Audumbaras closely with the Jalandhar territory."
+        }
+    ];
+
+    let activeNoteId = 1;
+
+    function initNotebook() {
+        renderNotesList();
+        loadNoteIntoEditor(activeNoteId);
+    }
+
+    function renderNotesList() {
+        const listBox = document.getElementById('notes-list-box');
+        listBox.innerHTML = "";
+
+        studyNotes.forEach(note => {
+            let activeClass = (note.id === activeNoteId) ? "active" : "";
+            listBox.innerHTML += `
+                <div class="note-item ${activeClass}" onclick="loadNoteIntoEditor(${note.id})">
+                    <h4>${note.title || 'Untitled Note'}</h4>
+                    <span>Click to view/edit document</span>
+                    <button class="btn-delete" onclick="deleteNote(event, ${note.id})">✕</button>
+                </div>
+            `;
+        });
+    }
+
+    function loadNoteIntoEditor(id) {
+        activeNoteId = id;
+        const targetNote = studyNotes.find(n => n.id === id);
+        
+        if(targetNote) {
+            document.getElementById('editor-title').value = targetNote.title;
+            document.getElementById('editor-body').value = targetNote.body;
+        }
+        
+        // Refresh active highlight styling state
+        document.querySelectorAll('.note-item').forEach(el => el.classList.remove('active'));
+        renderNotesList();
+    }
+
+    function saveActiveNote() {
+        const titleValue = document.getElementById('editor-title').value;
+        const bodyValue = document.getElementById('editor-body').value;
+        
+        let targetNote = studyNotes.find(n => n.id === activeNoteId);
+        if(targetNote) {
+            targetNote.title = titleValue;
+            targetNote.body = bodyValue;
+            alert("Changes saved locally inside your Shivay Digitech Workspace!");
+            renderNotesList();
+        }
+    }
+
+    function createNewNote() {
+        const newId = Date.now();
+        const newNoteObj = {
+            id: newId,
+            title: "New Fresh Topic",
+            body: "Write your important points here..."
+        };
+        studyNotes.unshift(newNoteObj); // add to top
+        activeNoteId = newId;
+        renderNotesList();
+        loadNoteIntoEditor(newId);
+    }
+
+    function deleteNote(event, id) {
+        event.stopPropagation(); // prevent loading item
+        if(confirm("Are you sure you want to delete this topic from notes?")) {
+            studyNotes = studyNotes.filter(n => n.id !== id);
+            if(studyNotes.length > 0) {
+                activeNoteId = studyNotes[0].id;
+                loadNoteIntoEditor(activeNoteId);
+            } else {
+                document.getElementById('editor-title').value = "";
+                document.getElementById('editor-body').value = "";
+            }
+            renderNotesList();
+        }
+    }
+
+    function downloadNoteAsText() {
+        const title = document.getElementById('editor-title').value;
+        const body = document.getElementById('editor-body').value;
+        
+        if(!title) return alert("Please write a topic name before downloading.");
+        
+        const textBlob = new Blob([`SHIVAY DIGITECH SERVICES\nTopic: ${title}\n=======================\n\n${body}`], { type: "text/plain" });
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `${title.replace(/\s+/g, '_')}.txt`;
+        downloadLink.href = window.URL.createObjectURL(textBlob);
+        downloadLink.click();
+    }
+
+    window.onload = initNotebook;
+</script>
+</body>
+</html>
