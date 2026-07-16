@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVAY Mock Services - TCS CBT Portal</title>
+    <style>
+        :root {
+            --tcs-blue: #0f2c59;
+            --tcs-light-blue: #1e4a8a;
+            --tcs-orange: #ff9933;
+            --green-saved: #2d8a4e;
+            --red-unanswered: #c9302c;
+            --purple-review: #7b1fa2;
+            --gray-unvisited: #f4f4f4;
+            --border-color: #d3d3d3;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header */
+        .top-header {
+            background-color: #ffffff;
+            color: var(--tcs-blue);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--tcs-blue);
+            flex-shrink: 0;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .exam-title-badge {
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--tcs-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* Main CBT Layout Split */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left 70% Questionnaire Area */
+        .question-panel {
+            width: 70%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .q-header-bar {
+            background-color: #f4f7f9;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .question-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .q-num-badge {
+            background-color: var(--tcs-blue);
+            color: white;
+            padding: 4px 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        .q-text-section {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .lang-text.hindi {
+            color: #1a5276;
+            margin-top: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f0f4f8;
+            border-color: var(--tcs-light-blue);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Right 30% Sidebar Panel */
+        .sidebar-panel {
+            width: 30%;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .candidate-card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .photo-box {
+            width: 65px;
+            height: 80px;
+            border: 1px solid var(--border-color);
+            background-color: #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .timer-container {
+            background-color: #ffebee;
+            color: var(--red-unanswered);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Grid Palette */
+        .palette-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .grid-matrix {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background-color: var(--gray-unvisited);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .grid-item.active {
+            outline: 2px solid var(--tcs-light-blue);
+        }
+
+        /* Status Styling */
+        .status-saved { background-color: var(--green-saved) !important; color: white; }
+        .status-unanswered { background-color: var(--red-unanswered) !important; color: white; }
+        .status-review { background-color: var(--purple-review) !important; color: white; }
+
+        /* Footer Bar */
+        .footer-bar {
+            background-color: #f4f7f9;
+            border-top: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .footer-btn {
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-save-next {
+            background-color: var(--tcs-light-blue);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="brand-title">SHIVAY MOCK SERVICES</div>
+        <div class="exam-title-badge">TCS CBT Mock Test Portal</div>
+    </header>
+
+    <div class="main-container">
+        <!-- Question Section -->
+        <section class="question-panel">
+            <div class="q-header-bar">
+                <span>SECTION: General Ability & Core Subjects</span>
+            </div>
+            
+            <div class="question-area" id="question-render">
+                <!-- JS dynamically loads questions here -->
+            </div>
+        </section>
+
+        <!-- Sidebar Section -->
+        <aside class="sidebar-panel">
+            <div class="timer-container" id="time-left">⏳ Time Left: 45:00</div>
+            
+            <div class="candidate-card">
+                <div class="photo-box">PHOTO</div>
+                <div>
+                    <strong>Candidate Name</strong><br>
+                    Roll No: SHIVAY-2026
+                </div>
+            </div>
+
+            <div class="palette-container">
+                <div style="font-size: 12px; font-weight: bold; color: #555;">QUESTION PALETTE</div>
+                <div class="grid-matrix" id="question-grid"></div>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="footer-bar">
+        <div>
+            <button class="footer-btn" onclick="clearAnswer()">Clear Response</button>
+            <button class="footer-btn" style="color: var(--purple-review);" onclick="markForReview()">Mark for Review & Next</button>
+        </div>
+        <button class="footer-btn btn-save-next" id="next-btn" onclick="saveAndNext()">Save & Next</button>
+    </footer>
+
+    <script>
+        // Sample Bilingual Questions Dataset
+        const questions = [
+            { qE: "Which of the following is considered volatile memory in a computer?", qH: "निम्नलिखित में से किसे कंप्यूटर में वोलेटाइल मेमोरी माना जाता है?", options: ["ROM", "Hard Disk", "Flash Drive", "RAM"], correct: 3 },
+            { qE: "First supercomputer developed in India is:", qH: "भारत में विकसित पहला सुपरकंप्यूटर कौन सा है?", options: ["PARAM 8000", "Aryabhatt", "Buddha", "C-DAC"], correct: 0 },
+            { qE: "What is the shortcut key to paste text in MS Word?", qH: "MS Word में टेक्स्ट को पेस्ट करने की शॉर्टकट कुंजी क्या है?", options: ["Ctrl + P", "Ctrl + C", "Ctrl + X", "Ctrl + V"], correct: 3 }
+        ];
+
+        let currentIdx = 0;
+        let studentAnswers = new Array(questions.length).fill(null);
+        let questionStatuses = new Array(questions.length).fill('unvisited');
+
+        function loadQuestion() {
+            const q = questions[currentIdx];
+            const container = document.getElementById('question-render');
+            
+            let html = `
+                <div class="q-text-section">
+                    <div class="lang-text english"><span class="q-num-badge">Question ${currentIdx + 1}</span><strong>${q.qE}</strong></div>
+                    <div class="lang-text hindi"><span class="q-num-badge">प्रश्न ${currentIdx + 1}</span><strong>${q.qH}</strong></div>
+                </div>
+                <div class="options-group">
+            `;
+
+            q.options.forEach((opt, idx) => {
+                let isChecked = (studentAnswers[currentIdx] === idx) ? "checked" : "";
+                html += `
+                    <label class="option-label" onclick="selectOpt(${idx})">
+                        <input type="radio" name="q-ans" id="opt-${idx}" ${isChecked}>
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+
+            container.innerHTML = html + `</div>`;
+            
+            // Highlight current index in palette
+            document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+            document.getElementById("grid-q-" + (currentIdx + 1)).classList.add('active');
+            
+            document.getElementById('next-btn').innerText = (currentIdx === questions.length - 1) ? "Submit Test" : "Save & Next";
+        }
+
+        function selectOpt(idx) {
+            studentAnswers[currentIdx] = idx;
+            document.getElementById(`opt-${idx}`).checked = true;
+        }
+
+        function clearAnswer() {
+            studentAnswers[currentIdx] = null;
+            document.querySelectorAll('input[name="q-ans"]').forEach(el => el.checked = false);
+            questionStatuses[currentIdx] = 'unanswered';
+            updateGridVisuals();
+        }
+
+        function markForReview() {
+            questionStatuses[currentIdx] = 'review';
+            updateGridVisuals();
+            proceedNext();
+        }
+
+        function saveAndNext() {
+            questionStatuses[currentIdx] = (studentAnswers[currentIdx] !== null) ? 'saved' : 'unanswered';
+            updateGridVisuals();
+            proceedNext();
+        }
+
+        function proceedNext() {
+            if (currentIdx < questions.length - 1) {
+                currentIdx++;
+                loadQuestion();
+            } else {
+                alert("Exam Submitted Successfully! Thanks for practicing.");
+            }
+        }
+
+        function buildGridPalette() {
+            const grid = document.getElementById("question-grid");
+            grid.innerHTML = "";
+            for (let i = 1; i <= questions.length; i++) {
+                const item = document.createElement("div");
+                item.className = "grid-item";
+                item.innerText = i;
+                item.id = "grid-q-" + i;
+                item.onclick = () => { currentIdx = i - 1; loadQuestion(); };
+                grid.appendChild(item);
+            }
+            updateGridVisuals();
+        }
+
+        function updateGridVisuals() {
+            for (let i = 0; i < questions.length; i++) {
+                const item = document.getElementById("grid-q-" + (i + 1));
+                item.className = "grid-item " + (questionStatuses[i] !== 'unvisited' ? 'status-' + questionStatuses[i] : '');
+            }
+        }
+
+        // 45 Mins Timer Setup
+        let time = 45 * 60;
+        setInterval(() => {
+            let min = Math.floor(time / 60);
+            let sec = time % 60;
+            document.getElementById('time-left').innerText = `⏳ Time Left: ${min}:${sec < 10 ? '0' : ''}${sec}`;
+            if(time > 0) time--;
+        }, 1000);
+
+        buildGridPalette();
+        loadQuestion();
+    </script>
+</body>
+</html>
