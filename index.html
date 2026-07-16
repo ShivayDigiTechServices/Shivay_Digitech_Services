@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIVAY Mock Services - Dynamic Test Portal</title>
+    <title>SHIVAY MOCK SERVICES - TCS CBT Exam Portal</title>
     <style>
         :root {
             --tcs-blue: #0f2c59;
@@ -14,6 +14,7 @@
             --purple-review: #7b1fa2;
             --gray-unvisited: #f4f4f4;
             --border-color: #d3d3d3;
+            --text-dark: #333333;
         }
 
         body {
@@ -21,71 +22,15 @@
             margin: 0;
             padding: 0;
             background-color: #f0f4f8;
-        }
-
-        /* 🛠️ Admin Dashboard Styling */
-        .admin-box {
-            background-color: #ffffff;
-            border: 2px solid var(--tcs-orange);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .admin-box h2 {
-            margin-top: 0;
-            color: var(--tcs-blue);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn-add {
-            background-color: var(--tcs-orange);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 15px;
-        }
-
-        .btn-add:hover {
-            background-color: #e68a00;
-        }
-
-        /* 💻 TCS CBT Portal Styling */
-        .cbt-wrapper {
-            border: 2px solid var(--tcs-blue);
-            margin: 20px;
-            background: #fff;
+            color: var(--text-dark);
+            user-select: none;
             display: flex;
             flex-direction: column;
-            height: 600px;
+            height: 100vh;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
+        /* Top Header */
         .top-header {
             background-color: #ffffff;
             color: var(--tcs-blue);
@@ -94,16 +39,34 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid var(--tcs-blue);
+            flex-shrink: 0;
         }
 
+        .brand-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .exam-title-badge {
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--tcs-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* Split Screen Layout */
         .main-container {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
 
+        /* Left Side Question Area (70%) */
         .question-panel {
             width: 70%;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
@@ -140,7 +103,14 @@
             padding-bottom: 15px;
         }
 
-        .lang-text.hindi { color: #1a5276; margin-top: 10px; }
+        .lang-text.hindi {
+            color: #1a5276;
+            margin-top: 12px;
+        }
+
+        .options-group {
+            margin-top: 15px;
+        }
 
         .option-label {
             display: flex;
@@ -151,10 +121,22 @@
             padding: 12px 15px;
             margin-bottom: 12px;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .option-label input { margin-right: 12px; }
+        .option-label:hover {
+            background-color: #f0f4f8;
+            border-color: var(--tcs-light-blue);
+        }
 
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Right Side Sidebar Panel (30%) */
         .sidebar-panel {
             width: 30%;
             background-color: #f4f5f7;
@@ -162,16 +144,42 @@
             flex-direction: column;
         }
 
+        .candidate-card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .photo-box {
+            width: 55px;
+            height: 65px;
+            background-color: #eaeaea;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 65px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
         .timer-container {
             background-color: #ffebee;
             color: var(--red-unanswered);
             padding: 10px;
             text-align: center;
+            font-size: 14px;
             font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .palette-container { padding: 15px; flex: 1; }
-        
+        .palette-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
         .grid-matrix {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -189,150 +197,124 @@
             justify-content: center;
             cursor: pointer;
             border-radius: 4px;
+            font-size: 14px;
         }
 
-        .grid-item.active { outline: 2px solid var(--tcs-light-blue); }
+        .grid-item.active {
+            outline: 2px solid var(--tcs-light-blue);
+        }
+
+        /* TCS Status Colors */
         .status-saved { background-color: var(--green-saved) !important; color: white; }
         .status-unanswered { background-color: var(--red-unanswered) !important; color: white; }
         .status-review { background-color: var(--purple-review) !important; color: white; }
 
+        /* Footer Controls */
         .footer-bar {
             background-color: #f4f7f9;
             border-top: 1px solid var(--border-color);
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
         .footer-btn {
             padding: 10px 22px;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
             border: 1px solid var(--border-color);
+            background-color: #ffffff;
         }
 
-        .btn-save-next { background-color: var(--tcs-light-blue); color: white; }
-        
-        .no-questions {
-            text-align: center;
-            color: #777;
-            margin-top: 50px;
-            font-style: italic;
+        .btn-save-next {
+            background-color: var(--tcs-light-blue);
+            color: white;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- 🛠️ 1. ADMIN PANEL (TEST UPDATER) -->
-    <div class="admin-box">
-        <h2>🛠️ SHIVAY Test Admin Dashboard (Add/Update Questions)</h2>
-        <div class="form-group">
-            <label>Question Text (English):</label>
-            <textarea id="admin-qe" rows="2" placeholder="Enter question in English..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>प्रश्न पाठ (Hindi):</label>
-            <textarea id="admin-qh" rows="2" placeholder="यहाँ हिंदी में प्रश्न लिखें..."></textarea>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="form-group"><label>Option 1 / विकल्प 1:</label><input type="text" id="opt-0"></div>
-            <div class="form-group"><label>Option 2 / विकल्प 2:</label><input type="text" id="opt-1"></div>
-            <div class="form-group"><label>Option 3 / विकल्प 3:</label><input type="text" id="opt-2"></div>
-            <div class="form-group"><label>Option 4 / विकल्प 4:</label><input type="text" id="opt-3"></div>
-        </div>
-        <div class="form-group">
-            <label>Correct Answer (सही उत्तर):</label>
-            <select id="correct-opt">
-                <option value="0">Option 1</option>
-                <option value="1">Option 2</option>
-                <option value="2">Option 3</option>
-                <option value="3">Option 4</option>
-            </select>
-        </div>
-        <button class="btn-add" onclick="addNewQuestion()">➕ Add Question to Live Test</button>
-    </div>
+    <!-- Header Section -->
+    <header class="top-header">
+        <div class="brand-title">SHIVAY MOCK SERVICES</div>
+        <div class="exam-title-badge">CBT Mock Test Series</div>
+    </header>
 
-    <!-- 💻 2. TCS CBT PORTAL -->
-    <div class="cbt-wrapper">
-        <header class="top-header">
-            <div style="font-size: 18px; font-weight: bold; color: var(--tcs-blue);">SHIVAY MOCK SERVICES</div>
-            <div style="font-size: 13px; font-weight: bold; color: white; background: var(--tcs-blue); padding: 6px 12px; border-radius: 4px;">Live Exam Screen</div>
-        </header>
+    <!-- Main Working Interface -->
+    <div class="main-container">
+        <section class="question-panel">
+            <div class="q-header-bar">SECTION: Core Question Paper</div>
+            <div class="question-area" id="question-render"></div>
+        </section>
 
-        <div class="main-container">
-            <section class="question-panel">
-                <div class="q-header-bar">SECTION: General Paper</div>
-                <div class="question-area" id="question-render">
-                    <div class="no-questions">कृपया ऊपर एडमिन पैनल से सवाल जोड़ें। टेस्ट यहाँ लाइव दिखेगा।</div>
+        <aside class="sidebar-panel">
+            <div class="timer-container" id="time-left">⏳ Time Left: 60:00</div>
+            
+            <div class="candidate-card">
+                <div class="photo-box">PHOTO</div>
+                <div>
+                    <strong>CBT Candidate</strong><br>
+                    Roll No: SHIVAY-2026
                 </div>
-            </section>
-
-            <aside class="sidebar-panel">
-                <div class="timer-container" id="time-left">⏳ Time Left: 60:00</div>
-                <div class="palette-container">
-                    <div style="font-size: 12px; font-weight: bold; color: #555;">Question Palette</div>
-                    <div class="grid-matrix" id="question-grid"></div>
-                </div>
-            </aside>
-        </div>
-
-        <footer class="footer-bar">
-            <div>
-                <button class="footer-btn" onclick="clearAnswer()">Clear Response</button>
-                <button class="footer-btn" style="color: var(--purple-review);" onclick="markForReview()">Mark for Review & Next</button>
             </div>
-            <button class="footer-btn btn-save-next" id="next-btn" onclick="saveAndNext()">Save & Next</button>
-        </footer>
+
+            <div class="palette-container">
+                <div style="font-size: 12px; font-weight: bold; color: #555;">QUESTION PALETTE</div>
+                <div class="grid-matrix" id="question-grid"></div>
+            </div>
+        </aside>
     </div>
+
+    <!-- Bottom Buttons -->
+    <footer class="footer-bar">
+        <div>
+            <button class="footer-btn" onclick="clearAnswer()">Clear Response</button>
+            <button class="footer-btn" style="color: var(--purple-review);" onclick="markForReview()">Mark for Review & Next</button>
+        </div>
+        <button class="footer-btn btn-save-next" id="next-btn" onclick="saveAndNext()">Save & Next</button>
+    </footer>
 
     <script>
-        // यह ऐरे डायनामिक तौर पर प्रश्नों को स्टोर करेगा
-        let quizQuestions = [];
-        let currentIdx = 0;
-        let studentAnswers = [];
-        let questionStatuses = [];
-
-        // एडमिन पैनल से नया सवाल जोड़ने का फंक्शन
-        function addNewQuestion() {
-            const qE = document.getElementById('admin-qe').value.trim();
-            const qH = document.getElementById('admin-qh').value.trim();
-            const o0 = document.getElementById('opt-0').value.trim();
-            const o1 = document.getElementById('opt-1').value.trim();
-            const o2 = document.getElementById('opt-2').value.trim();
-            const o3 = document.getElementById('opt-3').value.trim();
-            const correct = parseInt(document.getElementById('correct-opt').value);
-
-            if (!qE || !qH || !o0 || !o1 || !o2 || !o3) {
-                alert("कृपया सवाल और चारों विकल्पों को पूरा भरें!");
-                return;
+        // ==========================================
+        // ✍️ यहाँ अपने प्रश्न और उत्तर अपडेट करें (EDIT QUESTIONS HERE)
+        // ==========================================
+        const quizQuestions = [
+            { 
+                qE: "According to Rig Veda, Shambara was a very powerful king of which tribe?", 
+                qH: "ऋग्वेद के अनुसार, शंबर किस जनजाति का एक बहुत शक्तिशाली राजा था?", 
+                options: ["Khash", "Kiratas", "Khampa", "Audumbaras"], 
+                correct: 1 
+            },
+            { 
+                qE: "Shambara possessed how many strong mountain forts between the Beas and Yamuna rivers?", 
+                qH: "ब्यास और यमुना नदियों के बीच शंबर के पास कितने मजबूत पहाड़ी किले थे?", 
+                options: ["99 Forts", "50 Forts", "40 Forts", "75 Forts"], 
+                correct: 0 
+            },
+            { 
+                qE: "Against which Aryan King did Shambara fight a fierce 40-year-long war?", 
+                qH: "शंबर ने किस आर्य राजा के खिलाफ 40 साल तक भीषण युद्ध लड़ा था?", 
+                options: ["Sudas", "Divodas", "Varchi", "Rigveda"], 
+                correct: 1 
+            },
+            { 
+                qE: "Which of the following is considered volatile memory in a computer system?", 
+                qH: "कंप्यूटर सिस्टम में निम्नलिखित में से किसे वोलेटाइल मेमोरी माना जाता है?", 
+                options: ["ROM", "Hard Disk", "RAM", "Flash Drive"], 
+                correct: 2 
             }
+        ];
+        // ==========================================
+        // इसके नीचे के कोड को बदलने की जरूरत नहीं है
+        // ==========================================
 
-            // नया प्रश्न ऐरे में पुश करें
-            quizQuestions.push({
-                qE: qE,
-                qH: qH,
-                options: [o0, o1, o2, o3],
-                correct: correct
-            });
-
-            // स्टेटस और आंसर री-इनिशियलाइज़ करें
-            studentAnswers.push(null);
-            questionStatuses.push('unvisited');
-
-            // इनपुट बॉक्स खाली करें
-            document.getElementById('admin-qe').value = "";
-            document.getElementById('admin-qh').value = "";
-            document.getElementById('opt-0').value = "";
-            document.getElementById('opt-1').value = "";
-            document.getElementById('opt-2').value = "";
-            document.getElementById('opt-3').value = "";
-
-            // पोर्टल को रिफ्रेश करें
-            buildGridPalette();
-            loadQuestion();
-            alert("सवाल सफलतापूर्वक लाइव टेस्ट में जोड़ दिया गया है!");
-        }
+        let currentIdx = 0;
+        let studentAnswers = new Array(quizQuestions.length).fill(null);
+        let questionStatuses = new Array(quizQuestions.length).fill('unvisited');
 
         function loadQuestion() {
             if (quizQuestions.length === 0) return;
@@ -360,9 +342,10 @@
 
             container.innerHTML = html + `</div>`;
             
+            // Grid Item Active Highlighting
             document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
-            const activeGrid = document.getElementById("grid-q-" + (currentIdx + 1));
-            if(activeGrid) activeGrid.classList.add('active');
+            const currentGridItem = document.getElementById("grid-q-" + (currentIdx + 1));
+            if(currentGridItem) currentGridItem.classList.add('active');
             
             document.getElementById('next-btn').innerText = (currentIdx === quizQuestions.length - 1) ? "Submit Test" : "Save & Next";
         }
@@ -373,7 +356,6 @@
         }
 
         function clearAnswer() {
-            if (quizQuestions.length === 0) return;
             studentAnswers[currentIdx] = null;
             document.querySelectorAll('input[name="q-ans"]').forEach(el => el.checked = false);
             questionStatuses[currentIdx] = 'unanswered';
@@ -381,24 +363,22 @@
         }
 
         function markForReview() {
-            if (quizQuestions.length === 0) return;
             questionStatuses[currentIdx] = 'review';
             updateGridVisuals();
             proceedNext();
         }
 
         function saveAndNext() {
-            if (quizQuestions.length === 0) return;
             questionStatuses[currentIdx] = (studentAnswers[currentIdx] !== null) ? 'saved' : 'unanswered';
             updateGridVisuals();
             proceedNext();
         }
 
         function proceedNext() {
-            if(currentIdx < quizQuestions.length - 1) {
+            if (currentIdx < quizQuestions.length - 1) {
                 currentIdx++;
                 loadQuestion();
-            } else if (quizQuestions.length > 0) {
+            } else {
                 alert("Exam Submitted Successfully!");
             }
         }
@@ -426,7 +406,7 @@
             }
         }
 
-        // 60 Mins Timer
+        // 60 Minutes Countdown Timer
         let time = 60 * 60;
         setInterval(() => {
             let min = Math.floor(time / 60);
@@ -434,6 +414,10 @@
             document.getElementById('time-left').innerText = `⏳ Time Left: ${min}:${sec < 10 ? '0' : ''}${sec}`;
             if(time > 0) time--;
         }, 1000);
+
+        // Initial Trigger
+        buildGridPalette();
+        loadQuestion();
     </script>
 </body>
 </html>
