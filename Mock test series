@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVAY Mock Services - TCS CBT Exam Portal (Style 2)</title>
+    <style>
+        :root {
+            --tcs-blue: #0f2c59;
+            --tcs-light-blue: #1e4a8a;
+            --tcs-orange: #ff9933;
+            --green-saved: #2d8a4e;
+            --red-unanswered: #c9302c;
+            --purple-review: #7b1fa2;
+            --gray-unvisited: #f4f4f4;
+            --border-color: #d3d3d3;
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: var(--text-dark);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Header: Shivay Brand Logo & Shlok --- */
+        .top-header {
+            background-color: #ffffff;
+            color: var(--tcs-blue);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--tcs-blue);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .shivay-logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--tcs-orange) 0%, #ffffff 50%, #128807 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            color: var(--tcs-blue);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            border: 2px solid var(--tcs-blue);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--tcs-blue);
+        }
+
+        .brand-subtitle {
+            font-size: 9px;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .shlok-container {
+            text-align: center;
+            font-style: italic;
+            color: #d35400;
+            font-weight: bold;
+            font-size: 13px;
+            background: #fff3e0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px dashed var(--tcs-orange);
+            max-width: 45%;
+        }
+
+        .exam-title-badge {
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--tcs-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* --- Screens & Overlays --- */
+        .full-screen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 44, 89, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .portal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            border-top: 5px solid var(--tcs-orange);
+        }
+
+        .instruction-box {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 95%;
+            max-width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-top: 5px solid var(--tcs-blue);
+            text-align: left;
+        }
+
+        .instruction-box h2 {
+            color: var(--tcs-blue);
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* --- Common UI elements --- */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--tcs-blue);
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .btn-action {
+            background-color: var(--tcs-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: var(--tcs-light-blue);
+        }
+
+        /* --- Instruction Legend Cards --- */
+        .inst-legend {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .inst-color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            border: 1px solid #ccc;
+        }
+
+        /* --- Main Exam Layout Split --- */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left Area */
+        .question-panel {
+            width: 70%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .q-header-bar {
+            background-color: #f4f7f9;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lang-selector-top select {
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+        }
+
+        .question-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .q-num-badge {
+            background-color: var(--tcs-blue);
+            color: white;
+            padding: 4px 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        .q-text-section {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .lang-text {
+            margin-bottom: 12px;
+        }
+
+        .lang-text.hindi {
+            color: #1a5276;
+            font-weight: 500;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .option-label:hover {
+            background-color: #f0f4f8;
+            border-color: var(--tcs-light-blue);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--tcs-blue);
+        }
+
+        /* Right Sidebar */
+        .sidebar-panel {
+            width: 30%;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .candidate-card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .photo-box {
+            width: 65px;
+            height: 80px;
+            border: 1px solid var(--border-color);
+            background-color: #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .candidate-info {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .candidate-info strong {
+            color: var(--tcs-blue);
+            font-size: 14px;
+        }
+
+        .timer-container {
+            background-color: #ffebee;
+            color: var(--red-unanswered);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Grid Palette Scroll */
+        .palette-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .palette-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .grid-matrix {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background-color: var(--gray-unvisited);
+            color: #333;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .grid-item.active {
+            outline: 2px solid var(--tcs-light-blue);
+            font-size: 12px;
+        }
+
+        .legend-section {
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-size: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-saved { background-color: var(--green-saved) !important; color: white !important; }
+        .status-unanswered { background-color: var(--red-unanswered) !important; color: white !important; }
+        .status-review { background-color: var(--purple-review) !important; color: white !important; }
+        .status-unvisited { background-color: var(--gray-unvisited) !important; color: #333 !important; }
+
+        /* --- Results & Feedbacks --- */
+        .result-panel {
+            flex: 1;
+            background: white;
+            padding: 40px;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .analysis-dashboard {
+            max-width: 700px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .dashboard-header {
+            background-color: var(--tcs-blue);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-card {
+            padding: 15px;
+            border-right: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-card:last-child {
+            border-right: none;
+        }
+
+        .stat-val {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tcs-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-lbl {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .accuracy-box {
+            padding: 20px;
+            background-color: #f9fbfd;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-bar-container {
+            background-color: #ddd;
+            border-radius: 10px;
+            height: 12px;
+            width: 80%;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--green-saved);
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .detailed-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .detailed-table th, .detailed-table td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .detailed-table th {
+            background-color: #f4f5f7;
+            color: var(--text-dark);
+        }
+
+        /* Solution Container CSS */
+        .solutions-container {
+            max-width: 700px;
+            margin: 25px auto;
+            text-align: left;
+            background: #fbfcfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .sol-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .sol-item:last-child {
+            border-bottom: none;
+        }
+
+        .sol-text-correct {
+            color: var(--green-saved);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .sol-text-user {
+            color: #555;
+            margin-top: 3px;
+        }
+
+        /* --- Footer Action Buttons --- */
+        .footer-bar {
+            background-color: #f4f7f9;
+            border-top: 1px solid var(--border-color);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .footer-btn {
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .btn-left-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-clear {
+            background-color: #ffffff;
+            color: #555;
+        }
+
+        .btn-clear:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-review {
+            background-color: #f0f4f8;
+            color: var(--purple-review);
+            border-color: var(--purple-review);
+        }
+
+        .btn-review:hover {
+            background-color: #e8eaf6;
+        }
+
+        .btn-save-next {
+            background-color: var(--tcs-light-blue);
+            color: white;
+            border-color: var(--tcs-light-blue);
+        }
+
+        .btn-save-next:hover {
+            background-color: #1e4a8a;
+        }
+
+        /* Motivation Quote Box */
+        .motivation-quote-box {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: #555;
+            background-color: #fcf8e3;
+            border-left: 5px solid var(--tcs-orange);
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 700px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        /* Exit Subscription CSS */
+        .subscription-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 650px;
+            margin: 30px auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .sub-btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sub-link {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: transform 0.2s;
+            font-size: 14px;
+        }
+
+        .sub-link:hover {
+            transform: scale(1.05);
+        }
+
+        .link-telegram { background-color: #0088cc; }
+        .link-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        .link-youtube { background-color: #ff0000; }
+
+        .admin-footer {
+            background: #2c3e50;
+            color: #bdc3c7;
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .admin-footer a {
+            color: #ff9933;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <!-- REGISTRATION PORTAL -->
+    <div id="registration-portal" class="full-screen-container">
+        <div class="portal-box">
+            <div class="shivay-logo" style="margin: 0 auto 15px auto;">S</div>
+            <h2>SHIVAY MOCK SERVICES</h2>
+            <p>HP Government Online Recruitment Exam Portal</p>
+            
+            <form id="portalForm" action="https://formsubmit.co/hemrajchauan509@gmail.com" method="POST" onsubmit="return handleRegister(event)">
+                <div class="input-group">
+                    <label for="student-name">Candidate Name *</label>
+                    <input type="text" id="student-name" name="Candidate Name" placeholder="Enter your full name" required>
+                </div>
+                <div class="input-group">
+                    <label for="student-contact">Email Address / Phone Number *</label>
+                    <input type="text" id="student-contact" name="Candidate Contact" placeholder="Email Address or Phone Number" required>
+                </div>
+
+                <!-- Hidden inputs to post results via formsubmit -->
+                <input type="hidden" id="hidden-score" name="Final Score">
+                <input type="hidden" id="hidden-feedback" name="Performance Feedback">
+                <input type="hidden" id="hidden-review-target" name="Exam Suggestion Chosen">
+                <input type="hidden" id="hidden-custom-review" name="User Custom Review Text">
+                <input type="hidden" id="hidden-attempt" name="Attempt Number">
+                <input type="hidden" name="_captcha" value="false">
+
+                <button type="submit" class="btn-action" style="width: 100%;">Sign In & Verify Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- INSTRUCTIONS PORTAL -->
+    <div id="instruction-portal" class="full-screen-container hidden">
+        <div class="instruction-box">
+            <h2>General Instructions / सामान्य निर्देश</h2>
+            
+            <div style="max-height: 400px; overflow-y: auto; padding-right: 10px; font-size: 13px; line-height: 1.6; color:#555; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
+                <h4 style="color:#000; margin-top:0;">English Instructions:</h4>
+                <ol>
+                    <li>The clock will be set at the server. The countdown timer in the top right corner of screen will display the remaining time available for you to complete the examination.</li>
+                    <li>The Question Palette displayed on the right side of screen will show the status of each question using the specified symbols.</li>
+                </ol>
+                
+                <div class="inst-legend">
+                    <div class="inst-color-box status-unvisited">1</div>
+                    <span>You have not visited the question yet. (आपने अभी तक प्रश्न नहीं देखा है।)</span>
+                </div>
+                <div class="inst-legend">
+                    <div class="inst-color-box status-unanswered">2</div>
+                    <span>You have not answered the question. (आपने प्रश्न का उत्तर नहीं दिया है।)</span>
+                </div>
+                <div class="inst-legend">
+                    <div class="inst-color-box status-saved">3</div>
+                    <span>You have answered the question. (आप प्रश्न का उत्तर दे चुके हैं।)</span>
+                </div>
+                <div class="inst-legend">
+                    <div class="inst-color-box status-review">4</div>
+                    <span>You have NOT answered the question, but have marked the question for review. (आपने उत्तर नहीं दिया है, बल्कि समीक्षा के लिए चिह्नित किया है।)</span>
+                </div>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+                <h4 style="color:#000;">हिंदी निर्देश:</h4>
+                <ol>
+                    <li>सर्वर पर घड़ी सेट की गई है। स्क्रीन के ऊपरी दाएं कोने में काउंटडाउन टाइमर परीक्षा पूरी करने के लिए आपके पास उपलब्ध शेष समय को प्रदर्शित करेगा।</li>
+                    <li>स्क्रीन के दाईं ओर प्रदर्शित प्रश्न पैलेट ऊपर दिए गए प्रतीकों का उपयोग करके प्रत्येक प्रश्न की स्थिति को दर्शाएगा।</li>
+                    <li>आप बिना उत्तर दिए भी अगले प्रश्न पर जा सकते हैं, कोई भी प्रश्न अनिवार्य (compulsory) नहीं है।</li>
+                </ol>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div class="input-group" style="margin-bottom: 0; min-width: 280px;">
+                    <label for="default-language" style="font-weight: bold;">Choose your default language / अपनी डिफ़ॉल्ट भाषा चुनें:</label>
+                    <select id="default-language" style="padding: 8px;">
+                        <option value="bilingual">Bilingual (English + Hindi)</option>
+                        <option value="english">English Only</option>
+                        <option value="hindi">Hindi Only</option>
+                    </select>
+                </div>
+                
+                <button class="btn-action" onclick="startActualExam()">I am ready to begin / मैं परीक्षा शुरू करने के लिए तैयार हूँ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TCS EXAM SYSTEM FEEDBACK PORTAL -->
+    <div id="review-feedback-portal" class="full-screen-container hidden">
+        <div class="portal-box" style="max-width: 550px; text-align: left;">
+            <h3 style="color: var(--tcs-blue); margin-top: 0; border-bottom: 2px solid var(--tcs-orange); padding-bottom: 8px;">TCS CBT Exam Feedback & Review</h3>
+            <p style="font-size: 13px; color:#555;">Please provide your feedback before final submission. (कृपया सबमिशन से पहले अपना फीडबैक दें:)</p>
+            
+            <div class="input-group">
+                <label style="font-size: 14px; margin-bottom: 8px;">Q1. किस परीक्षा से संबंधित टेस्ट सीरीज़ और बनानी चाहिए? (Suggest Next Exam Test Series)*</label>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+                    <label><input type="radio" name="next_exam_suggest" value="HPRCA JOA IT" checked> HPRCA JOA IT</label>
+                    <label><input type="radio" name="next_exam_suggest" value="Patwari"> Patwari</label>
+                    <label><input type="radio" name="next_exam_suggest" value="Panchayat Secretary"> Panchayat Secretary</label>
+                    <label><input type="radio" name="next_exam_suggest" value="Other HP Exams"> Other HP Exams</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="custom-review-txt">Q2. Write your reviews/suggestions below: (अन्य सुझाव दर्ज करें:)</label>
+                <textarea id="custom-review-txt" rows="3" placeholder="Write reviews, suggestions or mock experience..." style="resize: none;"></textarea>
+            </div>
+
+            <button class="btn-action" style="width: 100%;" onclick="submitFeedbackForm()">Submit & View Scorecard</button>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="top-header">
+        <div class="logo-container">
+            <div class="shivay-logo">S</div>
+            <div class="brand-text">
+                <span class="brand-title">SHIVAY MOCK SERVICES</span>
+                <span class="brand-subtitle">An Initiative of Shivay Institute</span>
+            </div>
+        </div>
+        
+        <div class="shlok-container">
+            ॐ उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः । <br>
+            <span style="font-size: 11px; color:#555;">(Hardwork leads to success, not just dreaming)</span>
+        </div>
+
+        <div class="exam-title-badge" id="exam-attempt-title">HPRCA JOA IT Mock Test 2026</div>
+    </header>
+
+    <!-- EXAM DASHBOARD -->
+    <main class="main-container hidden" id="exam-dashboard">
+        <section class="question-panel">
+            <div class="q-header-bar">
+                <span>SECTION: Computer Awareness & Science</span>
+                
+                <div class="lang-selector-top">
+                    <label for="on-fly-lang" style="font-size: 12px; font-weight: bold;">View In: </label>
+                    <select id="on-fly-lang" onchange="changeActiveLanguage(this.value)">
+                        <option value="bilingual">Bilingual</option>
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="question-area" id="question-render"></div>
+        </section>
+
+        <aside class="sidebar-panel">
+            <div class="timer-container" id="time-left">
+                ⏳ Time Left: 45:00
+            </div>
+
+            <div class="candidate-card">
+                <div class="photo-box">
+                    <svg viewBox="0 0 100 100">
+                        <rect width="100" height="100" fill="#eaeaea"/>
+                        <circle cx="50" cy="40" r="20" fill="#888888"/>
+                        <path d="M 15 90 C 15 65, 85 65, 85 90 Z" fill="#888888"/>
+                    </svg>
+                </div>
+                <div class="candidate-info">
+                    <strong id="display-candidate-name">Candidate Name</strong><br>
+                    Roll No: JOA-2026998<br>
+                    <span id="display-attempt-count" style="color: #d35400; font-weight: bold;">Attempt: 1</span>
+                </div>
+            </div>
+
+            <div class="palette-container">
+                <div class="palette-title">Question Palette</div>
+                <div class="grid-matrix" id="question-grid"></div>
+
+                <div class="legend-section">
+                    <div class="legend-item">
+                        <div class="legend-color status-saved"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color status-unanswered"></div>
+                        <span>Not Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color status-review"></div>
+                        <span>Marked Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color status-unvisited"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- RESULT & REPORT PORTAL -->
+    <section id="result-panel" class="result-panel hidden">
+        <h2 style="color: var(--tcs-blue); margin-top: 0;">CBT Exam Submission Report</h2>
+        <p style="color: #666; font-size:14px; margin-bottom:25px;">Your test details have been recorded and sent to your email & admin inbox.</p>
+        
+        <div class="analysis-dashboard">
+            <div class="dashboard-header" id="dash-candidate-header">
+                Performance Scorecard - Candidate Name
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-total-q">30</div>
+                    <div class="stat-lbl">Total Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-attempted" style="color: var(--tcs-light-blue);">0</div>
+                    <div class="stat-lbl">Attempted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-unattempted" style="color: var(--red-unanswered);">0</div>
+                    <div class="stat-lbl">Unattempted</div>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="border-bottom: 2px solid var(--tcs-blue);">
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-correct" style="color: var(--green-saved);">0</div>
+                    <div class="stat-lbl">Correct Answers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-incorrect" style="color: var(--red-unanswered);">0</div>
+                    <div class="stat-lbl">Incorrect Answers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stats-net-score" style="color: var(--tcs-orange);">0</div>
+                    <div class="stat-lbl">Final Score</div>
+                </div>
+            </div>
+
+            <div class="accuracy-box">
+                <div style="font-size: 14px; font-weight: bold; color: #555;">Test Accuracy Rate</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="accuracy-progress"></div>
+                </div>
+                <div style="font-size: 16px; font-weight: bold; color: var(--green-saved);" id="accuracy-percentage">0%</div>
+            </div>
+
+            <div style="padding: 20px; background-color: #ffffff;">
+                <table class="detailed-table">
+                    <thead>
+                        <tr>
+                            <th>Exam Name</th>
+                            <th>Section</th>
+                            <th>No. of Attempts</th>
+                            <th>Passing Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: bold;">Computer Awareness HP</td>
+                            <td>General Computer Science Core</td>
+                            <td style="font-weight: bold; color: var(--tcs-orange);" id="detailed-attempt-lbl">1</td>
+                            <td style="font-weight: bold;" id="detailed-status-lbl">QUALIFIED</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MOTIVATION QUOTE -->
+        <div class="motivation-quote-box" id="quote-container">
+            "Your limitation—it's only your imagination. Push yourself, because no one else is going to do it for you."
+        </div>
+
+        <div style="margin-bottom: 25px; display: flex; justify-content: center; gap: 15px;">
+            <button class="btn-action" style="background-color: var(--tcs-light-blue);" onclick="toggleSolutionSection()">View Detailed Solutions / समाधान देखें</button>
+            <button class="btn-action" onclick="restartExamForMultipleAttempt()">Re-attempt Exam / दोबारा प्रयास करें</button>
+        </div>
+
+        <!-- SOLUTIONS SECTION -->
+        <div id="solution-wrapper-sec" class="solutions-container hidden">
+            <h3 style="border-bottom: 2px solid var(--tcs-blue); padding-bottom: 8px; margin-top: 0; color: var(--tcs-blue);">Detailed Explanations & Solutions (विस्तृत समाधान)</h3>
+            <div id="solutions-renderer"></div>
+        </div>
+
+        <!-- SOCIAL MEDIA CHANNELS SUBSCRIPTION DEMAND -->
+        <div class="subscription-card">
+            <h3>🔴 Join Our Learning Community!</h3>
+            <p>To get the latest HPRCA, Patwari, JOA IT exam test-series, notification updates and live lecture alerts, please subscribe to our official social media channels:</p>
+            <div class="sub-btn-group">
+                <a href="https://t.me/fearless_dreamer_0105" target="_blank" class="sub-link link-telegram">Join Telegram Group</a>
+                <a href="https://www.instagram.com/yatharthadarshi_raj/" target="_blank" class="sub-link link-instagram">Follow Instagram</a>
+                <a href="https://www.youtube.com/@rajchauhan2938" target="_blank" class="sub-link link-youtube">Subscribe YouTube Channel</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER ACTION BAR -->
+    <footer class="footer-bar hidden" id="exam-footer">
+        <div class="btn-left-group">
+            <button class="footer-btn btn-clear" onclick="clearAnswer()">Clear Response</button>
+            <button class="footer-btn btn-review" onclick="markForReview()">Mark for Review & Next</button>
+        </div>
+        <button class="footer-btn btn-save-next" id="next-btn" onclick="saveAndNext()">Save & Next</button>
+    </footer>
+
+    <!-- ADMIN SOCIAL FOOTER -->
+    <footer class="admin-footer">
+        <div>
+            <strong>Support:</strong> hemrajchauan509@gmail.com | <strong>Call:</strong> +91 7876013947
+        </div>
+        <div style="margin-top: 6px;">
+            <a href="https://t.me/fearless_dreamer_0105" target="_blank">Telegram Group</a> | 
+            <a href="https://www.instagram.com/yatharthadarshi_raj/" target="_blank">Instagram</a> | 
+            <a href="https://www.youtube.com/@rajchauhan2938" target="_blank">YouTube Channel</a>
+        </div>
+    </footer>
+
+    <script>
+        // Disable Developer options & F12
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){ return false; }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){ return false; }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){ return false; }
+        };
+
+        const quizQuestions = [
+            {
+                qE: "A _____ is an electronic device that processes data and converts it into information.",
+                qH: "एक _____ एक इलेक्ट्रॉनिक उपकरण है जो डेटा को प्रोसेस करता है और इसे सूचना में परिवर्तित करता है।",
+                options: ["Computer / कंप्यूटर", "Processor / प्रोसेसर", "Case / केस", "Styles / स्टाइल्स", "None of these / इनमें से कोई नहीं"],
+                correct: 0
+            },
+            {
+                qE: "_____ is processed into information by computer processor?",
+                qH: "कंप्यूटर प्रोसेसर द्वारा किसे सूचना में संसाधित (process) किया जाता है?",
+                options: ["Number / नंबर", "Processor / प्रोसेसर", "Input / इनपुट", "Data / डेटा", "None of these / इनमें से कोई नहीं"],
+                correct: 3
+            },
+            {
+                qE: "First supercomputer developed in India is:",
+                qH: "भारत में विकसित पहला सुपरकंप्यूटर कौन सा है?",
+                options: ["Param / परम", "Aryabhatt / आर्यभट्ट", "Buddha / बुद्ध", "Ram / राम", "None of these / इनमें से कोई नहीं"],
+                correct: 0
+            },
+            {
+                qE: "Part of CPU which coordinates all functions of computer and other components -",
+                qH: "CPU का वह भाग जो कंप्यूटर और अन्य घटकों के सभी कार्यों का समन्वय (coordinate) करता है -",
+                options: ["Mother board / मदर बोर्ड", "Coordination board / कोऑर्डिनेशन बोर्ड", "Control unit / कंट्रोल यूनिट", "ALU / ए.एल.यू.", "None of these / इनमें से कोई नहीं"],
+                correct: 2
+            },
+            {
+                qE: "Data going to computer is called –",
+                qH: "कंप्यूटर में जाने वाले डेटा को क्या कहा जाता है?",
+                options: ["Operate / ऑपरेट", "Algorithm / एल्गोरिदम", "Input / इनपुट", "Calculation / कैलकुलेशन", "Flowchart / फ्लोचार्ट"],
+                correct: 2
+            },
+            {
+                qE: "Input is modified into output by –",
+                qH: "इनपुट को आउटपुट में किसके द्वारा रूपांतरित किया जाता है?",
+                options: ["Peripherals / पेरीफेरल्स", "Memory / मेमोरी", "Storage / स्टोरेज", "Input output unit / इनपुट आउटपुट यूनिट", "CPU / सी.पी.यू."],
+                correct: 4
+            },
+            {
+                qE: "Computer for personal use is –",
+                qH: "व्यक्तिगत उपयोग के लिए उपयोग होने वाला कंप्यूटर कौन सा है?",
+                options: ["Minicomputer / मिनीकंप्यूटर", "Super computer / सुपर कंप्यूटर", "Micro computer / माइक्रो कंप्यूटर", "Mainframe computer / मेनफ्रेम कंप्यूटर"],
+                correct: 2
+            },
+            {
+                qE: "In production of I.C. chip of computer what is needed in the following –",
+                qH: "कंप्यूटर की आई.सी. चिप (I.C. Chip) के उत्पादन में निम्नलिखित में से किसकी आवश्यकता होती है?",
+                options: ["Chromium / क्रोमियम", "Silicon / सिलिकॉन", "Platinum / प्लैटिनम", "Gold / सोना", "None of these / इनमें से कोई नहीं"],
+                correct: 1
+            },
+            {
+                qE: "Information in computer is called -",
+                qH: "कंप्यूटर में सूचना (information) किसे कहा जाता है?",
+                options: ["Data / डेटा", "Number / नंबर", "Symbol / प्रतीक", "Stored data / संचित डेटा", "None of these / इनमें से कोई नहीं"],
+                correct: 3
+            },
+            {
+                qE: "Which is a part of CPU?",
+                qH: "निम्नलिखित में से कौन सा CPU का एक भाग है?",
+                options: ["Key board / कीबोर्ड", "Printer / प्रिंटर", "Tape / टेप", "ALU / ए.एल.यू.", "None of these / इनमें से कोई नहीं"],
+                correct: 3
+            },
+            {
+                qE: "What is E.D.P.?",
+                qH: "E.D.P. का पूर्ण रूप (full form) क्या है?",
+                options: ["Electronic data part", "Electronic data personal", "Electronic data power", "Electronic data processing", "None of these / इनमें से कोई नहीं"],
+                correct: 3
+            },
+            {
+                qE: "CPU Stands for –",
+                qH: "CPU का पूर्ण रूप क्या है?",
+                options: ["Cover processing unit", "Control processing unit", "Central processing unit", "All of these", "None of these"],
+                correct: 2
+            },
+            {
+                qE: "ALU Stands for –",
+                qH: "ALU का पूर्ण रूप क्या है?",
+                options: ["Arithmetic logic unit", "Arithmetic large unit", "Arithmetic long unit", "All of these", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "Which of these is a CPU?",
+                qH: "निम्नलिखित में से किसे CPU माना जाता है?",
+                options: ["Chip / चिप", "Box / बॉक्स", "Circuit / सर्किट", "Peripheral / पेरिफेरल", "None of these / इनमें से कोई नहीं"],
+                correct: 0
+            },
+            {
+                qE: "Basic operation done by computer is –",
+                qH: "कंप्यूटर द्वारा किया जाने वाला बुनियादी कार्य (basic operation) कौन सा है?",
+                options: ["Arithmetic operation", "Logical operation", "Data storage", "All of these", "None of these"],
+                correct: 3
+            },
+            {
+                qE: "___________ is called brain of computer –",
+                qH: "___________ को कंप्यूटर का मस्तिष्क कहा जाता है -",
+                options: ["CPU", "Monitor", "Modem", "Software", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "Which among the following is another name for a group of 4 bits?",
+                qH: "निम्नलिखित में से 4 बिट्स के समूह का दूसरा नाम क्या है?",
+                options: ["Nibble", "Byte", "Kilo Byte", "Mega Byte", "Peta Byte"],
+                correct: 0
+            },
+            {
+                qE: "Which part of the computer is used for calculating and comparing?",
+                qH: "कंप्यूटर के किस भाग का उपयोग गणना और तुलना करने के लिए किया जाता है?",
+                options: ["ALU", "Control unit", "Disk unit", "Modem", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "Function of CPU is –",
+                qH: "CPU का कार्य क्या है? –",
+                options: ["Arithmetic calculation", "Comparison between the value of two objects", "Search of desired data in artificial memory", "All of the above", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "Which unit control the movement of signals between CPU and I/O?",
+                qH: "कौन सी इकाई CPU और I/O के बीच संकेतों के संचलन को नियंत्रित करती है?",
+                options: ["ALU", "Control unit", "Memory unit", "Secondary storage", "None of these"],
+                correct: 1
+            },
+            {
+                qE: "Computer is named as _____ intelligence.",
+                qH: "कंप्यूटर को _____ बुद्धिमत्ता नाम दिया गया है।",
+                options: ["Pure / शुद्ध", "Human / मानव", "Artificial / कृत्रिम", "All / सभी", "None of these / इनमें से कोई नहीं"],
+                correct: 2
+            },
+            {
+                qE: "The three main parts of the processor are–",
+                qH: "प्रोसेसर के तीन मुख्य भाग कौन से हैं–",
+                options: ["ALU, Control unit and Registers", "ALU, Control unit and RAM", "Cache, Control unit and Registers", "Control unit, Registers and RAM", "RAM, ROM and CD-ROM"],
+                correct: 0
+            },
+            {
+                qE: "What is the function of the Central Processing Unit of a computer?",
+                qH: "कंप्यूटर के सेंट्रल प्रोसेसिंग यूनिट (CPU) का क्या कार्य है?",
+                options: ["Creates invoices", "Performs calculations and processing", "Deletes Data", "Corrupts the data", "None of these"],
+                correct: 1
+            },
+            {
+                qE: "Computer – \n1) A device which is able to store data \n2) A device which is able to analyse data \n3) A device which is able to maintain full security \n4) Sometime attacked by virus",
+                qH: "कंप्यूटर – \n1) डेटा संग्रहीत करने में सक्षम उपकरण \n2) डेटा का विश्लेषण करने में सक्षम उपकरण \n3) पूर्ण सुरक्षा बनाए रखने में सक्षम उपकरण \n4) कभी-कभी वायरस द्वारा हमला किया जाने वाला",
+                options: ["1 and 2", "1, 2, and 3", "1, 2 and 4", "All of these / ये सभी", "None of these / इनमें से कोई नहीं"],
+                correct: 3
+            },
+            {
+                qE: "The basic computer processing cycle consists of ______",
+                qH: "बुनियादी कंप्यूटर प्रोसेसिंग चक्र में __________ शामिल हैं",
+                options: ["Input, processing and output", "Systems and application", "Data, information and applications", "Hardware, software and storage", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "First calculating device is –",
+                qH: "पहला गणना यंत्र (calculating device) कौन सा है? –",
+                options: ["Clock", "Difference engine", "Abacus", "Calculator", "All"],
+                correct: 2
+            },
+            {
+                qE: "Computer that was made before 1st generation computer –",
+                qH: "पहली पीढ़ी के कंप्यूटर से पहले बनाया गया कंप्यूटर कौन सा था? –",
+                options: ["Mechanical", "Electro mechanical", "Electrical", "All these", "None of these"],
+                correct: 1
+            },
+            {
+                qE: "Analog computer is -",
+                qH: "एनालॉग कंप्यूटर क्या है? -",
+                options: ["A machine which works on data which is always changeable", "An arithmetic high level language", "Communicate at low level", "All these", "None of these"],
+                correct: 0
+            },
+            {
+                qE: "Super computer –",
+                qH: "सुपर कंप्यूटर –",
+                options: ["It processes data of more than one user at a time", "It is a fast and costly computer system", "It is used in large organizations", "All of these", "None of these"],
+                correct: 3
+            },
+            {
+                qE: "Characteristic of fifth generation computer is –",
+                qH: "पांचवीं पीढ़ी के कंप्यूटर की विशेषता क्या है? –",
+                options: ["Used in home", "Artificial intelligence", "Very low cost", "All of these", "None of these"],
+                correct: 1
+            }
+        ];
+
+        const quotes = [
+            "Your limitation—it's only your imagination. Push yourself, because no one else is going to do it for you.",
+            "Hard work beats talent when talent doesn't work hard. Keep practicing!",
+            "उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः । मेहनत ही सफलता की कुंजी है, इसे जारी रखें!",
+            "Success isn't always about greatness. It's about consistency. Consistent hard work leads to success."
+        ];
+
+        let currentIdx = 0;
+        let selectedOption = null;
+        let candidateName = "";
+        let candidateContact = "";
+        let attemptCount = 1;
+        
+        let timerMin = 45;
+        let timerSec = 0;
+        let timerInterval;
+        let currentLang = "bilingual";
+
+        let studentAnswers = new Array(quizQuestions.length).fill(null);
+        let questionStatuses = new Array(quizQuestions.length).fill('unvisited');
+
+        function handleRegister(event) {
+            event.preventDefault();
+            candidateName = document.getElementById('student-name').value.trim();
+            candidateContact = document.getElementById('student-contact').value.trim();
+
+            if(candidateName && candidateContact) {
+                document.getElementById('registration-portal').classList.add('hidden');
+                document.getElementById('instruction-portal').classList.remove('hidden');
+            }
+            return false;
+        }
+
+        function startActualExam() {
+            currentLang = document.getElementById('default-language').value;
+            document.getElementById('on-fly-lang').value = currentLang;
+
+            document.getElementById('instruction-portal').classList.add('hidden');
+            document.getElementById('exam-dashboard').classList.remove('hidden');
+            document.getElementById('exam-footer').classList.remove('hidden');
+            
+            document.getElementById('display-candidate-name').innerText = candidateName;
+            document.getElementById('display-attempt-count').innerText = `Attempt: ${attemptCount}`;
+            document.getElementById('exam-attempt-title').innerText = `HPRCA Computer Practice Mock Test 2026 (Attempt #${attemptCount})`;
+
+            buildGridPalette();
+            loadQuestion();
+            startCountdownTimer();
+        }
+
+        function buildGridPalette() {
+            const grid = document.getElementById("question-grid");
+            grid.innerHTML = "";
+            for (let i = 1; i <= 100; i++) {
+                const item = document.createElement("div");
+                item.className = "grid-item status-unvisited";
+                item.innerText = i;
+                item.id = "grid-q-" + i;
+                
+                if(i <= quizQuestions.length) {
+                    item.addEventListener("click", () => jumpToQuestion(i - 1));
+                }
+                grid.appendChild(item);
+            }
+            updateGridVisuals();
+        }
+
+        function jumpToQuestion(idx) {
+            if(studentAnswers[currentIdx] === null && questionStatuses[currentIdx] !== 'review') {
+                questionStatuses[currentIdx] = 'unanswered';
+            }
+            currentIdx = idx;
+            loadQuestion();
+        }
+
+        function changeActiveLanguage(langVal) {
+            currentLang = langVal;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            selectedOption = studentAnswers[currentIdx];
+            const q = quizQuestions[currentIdx];
+            const container = document.getElementById('question-render');
+            
+            let showEnglish = (currentLang === 'bilingual' || currentLang === 'english');
+            let showHindi = (currentLang === 'bilingual' || currentLang === 'hindi');
+
+            let html = `<div class="q-text-section">`;
+            
+            if(showEnglish) {
+                html += `
+                    <div class="lang-text english">
+                        <span class="q-num-badge">Question ${currentIdx + 1}</span>
+                        <strong>${q.qE.replace(/\n/g, '<br>')}</strong>
+                    </div>
+                `;
+            }
+            if(showHindi) {
+                html += `
+                    <div class="lang-text hindi">
+                        ${!showEnglish ? `<span class="q-num-badge">प्रश्न ${currentIdx + 1}</span>` : ''}
+                        <strong>${q.qH.replace(/\n/g, '<br>')}</strong>
+                    </div>
+                `;
+            }
+
+            html += `</div><div class="options-group">`;
+
+            q.options.forEach((opt, index) => {
+                let isChecked = (selectedOption === index) ? "checked" : "";
+                html += `
+                    <label class="option-label" onclick="selectOpt(${index})">
+                        <input type="radio" name="q-ans" id="opt-${index}" value="${index}" ${isChecked}>
+                        <span>${opt}</span>
+                    </label>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+
+            document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+            const activeGridItem = document.getElementById("grid-q-" + (currentIdx + 1));
+            if(activeGridItem) activeGridItem.classList.add('active');
+
+            if(currentIdx === quizQuestions.length - 1) {
+                document.getElementById('next-btn').innerText = "Submit Exam";
+            } else {
+                document.getElementById('next-btn').innerText = "Save & Next";
+            }
+        }
+
+        function selectOpt(index) {
+            selectedOption = index;
+            studentAnswers[currentIdx] = index;
+            document.getElementById(`opt-${index}`).checked = true;
+        }
+
+        function clearAnswer() {
+            selectedOption = null;
+            studentAnswers[currentIdx] = null;
+            document.querySelectorAll('input[name="q-ans"]').forEach(el => el.checked = false);
+            questionStatuses[currentIdx] = 'unanswered';
+            updateGridVisuals();
+        }
+
+        function markForReview() {
+            questionStatuses[currentIdx] = 'review';
+            updateGridVisuals();
+            proceedNext();
+        }
+
+        function saveAndNext() {
+            if(selectedOption !== null) {
+                questionStatuses[currentIdx] = 'saved';
+            } else {
+                questionStatuses[currentIdx] = 'unanswered';
+            }
+            updateGridVisuals();
+            proceedNext();
+        }
+
+        function proceedNext() {
+            if(currentIdx < quizQuestions.length - 1) {
+                currentIdx++;
+                loadQuestion();
+            } else {
+                let conf = confirm("Are you sure you want to submit the exam? Final submission requests feedback survey.");
+                if(conf) {
+                    initiateFeedbackPortal();
+                }
+            }
+        }
+
+        function updateGridVisuals() {
+            for (let i = 0; i < quizQuestions.length; i++) {
+                const item = document.getElementById("grid-q-" + (i + 1));
+                if(item) {
+                    item.className = "grid-item";
+                    if(questionStatuses[i] === 'saved') {
+                        item.classList.add('status-saved');
+                    } else if(questionStatuses[i] === 'unanswered') {
+                        item.classList.add('status-unanswered');
+                    } else if(questionStatuses[i] === 'review') {
+                        item.classList.add('status-review');
+                    } else {
+                        item.classList.add('status-unvisited');
+                    }
+                }
+            }
+        }
+
+        function startCountdownTimer() {
+            timerMin = 45;
+            timerSec = 0;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if(timerSec === 0) {
+                    if(timerMin === 0) {
+                        clearInterval(timerInterval);
+                        alert("Time limit reached!");
+                        initiateFeedbackPortal();
+                        return;
+                    }
+                    timerMin--;
+                    timerSec = 59;
+                } else {
+                    timerSec--;
+                }
+                document.getElementById('time-left').innerText = `⏳ Time Left: ${timerMin}:${timerSec < 10 ? '0' : ''}${timerSec}`;
+            }, 1000);
+        }
+
+        function initiateFeedbackPortal() {
+            clearInterval(timerInterval);
+            document.getElementById('exam-dashboard').classList.add('hidden');
+            document.getElementById('exam-footer').classList.add('hidden');
+            document.getElementById('review-feedback-portal').classList.remove('hidden');
+        }
+
+        function submitFeedbackForm() {
+            const radioVal = document.querySelector('input[name="next_exam_suggest"]:checked').value;
+            const textVal = document.getElementById('custom-review-txt').value.trim();
+
+            document.getElementById('hidden-review-target').value = radioVal;
+            document.getElementById('hidden-custom-review').value = textVal;
+
+            document.getElementById('review-feedback-portal').classList.add('hidden');
+            showFinalResults();
+        }
+
+        function showFinalResults() {
+            document.getElementById('result-panel').classList.remove('hidden');
+
+            let answeredCount = 0;
+            let unattemptedCount = 0;
+            let correctCount = 0;
+            let incorrectCount = 0;
+
+            studentAnswers.forEach((ans, index) => {
+                if(ans !== null) {
+                    answeredCount++;
+                    if(ans === quizQuestions[index].correct) {
+                        correctCount++;
+                    } else {
+                        incorrectCount++;
+                    }
+                } else {
+                    unattemptedCount++;
+                }
+            });
+
+            const finalScore = correctCount;
+            const accuracyRate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+            const passingStatus = (finalScore >= quizQuestions.length * 0.4) ? "QUALIFIED (सफल)" : "NEEDS PRACTICE (अभ्यास की आवश्यकता)";
+
+            document.getElementById('dash-candidate-header').innerText = `Performance Scorecard - ${candidateName}`;
+            document.getElementById('stats-total-q').innerText = quizQuestions.length;
+            document.getElementById('stats-attempted').innerText = answeredCount;
+            document.getElementById('stats-unattempted').innerText = unattemptedCount;
+            document.getElementById('stats-correct').innerText = correctCount;
+            document.getElementById('stats-incorrect').innerText = incorrectCount;
+            document.getElementById('stats-net-score').innerText = `${finalScore} / ${quizQuestions.length}`;
+            
+            document.getElementById('accuracy-percentage').innerText = `${accuracyRate}%`;
+            document.getElementById('accuracy-progress').style.width = `${accuracyRate}%`;
+
+            document.getElementById('detailed-attempt-lbl').innerText = attemptCount;
+            document.getElementById('detailed-status-lbl').innerText = passingStatus;
+
+            const randQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-container').innerText = `"${randQuote}"`;
+
+            buildSolutionExplanations();
+
+            document.getElementById('hidden-score').value = `${finalScore} out of ${quizQuestions.length} (Correct: ${correctCount}, Incorrect: ${incorrectCount})`;
+            document.getElementById('hidden-feedback').value = `Accuracy: ${accuracyRate}% | Status: ${passingStatus}`;
+            document.getElementById('hidden-attempt').value = `Attempt Number: ${attemptCount}`;
+
+            const form = document.getElementById('portalForm');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(() => {
+                console.log("CBT performance feedback recorded successfully.");
+            }).catch(err => {
+                console.error("Submission failed: ", err);
+            });
+        }
+
+        function toggleSolutionSection() {
+            const solDiv = document.getElementById('solution-wrapper-sec');
+            solDiv.classList.toggle('hidden');
+        }
+
+        function buildSolutionExplanations() {
+            const renderer = document.getElementById('solutions-renderer');
+            renderer.innerHTML = "";
+
+            quizQuestions.forEach((q, index) => {
+                const userAnsIdx = studentAnswers[index];
+                const isCorrect = (userAnsIdx === q.correct);
+                const userAnsText = userAnsIdx !== null ? q.options[userAnsIdx] : "Not Attempted (प्रयास नहीं किया)";
+                const correctAnsText = q.options[q.correct];
+
+                const item = document.createElement('div');
+                item.className = "sol-item";
+                item.innerHTML = `
+                    <strong>Q${index + 1}. ${q.qE}</strong><br>
+                    <span style="color:#1a5276; font-size:13px; font-weight:500;">प्र. ${q.qH}</span>
+                    <div class="sol-text-correct">✔️ Correct Answer: ${correctAnsText}</div>
+                    <div class="sol-text-user" style="color: ${isCorrect ? 'var(--green-saved)' : 'var(--red-unanswered)'}">
+                        👤 Your Selected Option: ${userAnsText} ${isCorrect ? ' (Correct)' : ' (Wrong)'}
+                    </div>
+                `;
+                renderer.appendChild(item);
+            });
+        }
+
+        function restartExamForMultipleAttempt() {
+            attemptCount++;
+            currentIdx = 0;
+            selectedOption = null;
+            
+            studentAnswers = new Array(quizQuestions.length).fill(null);
+            questionStatuses = new Array(quizQuestions.length).fill('unvisited');
+
+            document.getElementById('result-panel').classList.add('hidden');
+            document.getElementById('solution-wrapper-sec').classList.add('hidden');
+            document.getElementById('instruction-portal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
