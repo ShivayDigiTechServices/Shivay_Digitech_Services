@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIVAY Mock Services - TCS CBT Exam Portal</title>
+    <style>
+        :root {
+            --tcs-blue: #0f2c59;
+            --tcs-light-blue: #1e4a8a;
+            --tcs-orange: #ff9933;
+            --green-saved: #2d8a4e;
+            --red-unanswered: #c9302c;
+            --purple-review: #7b1fa2;
+            --gray-unvisited: #f4f4f4;
+            --border-color: #d3d3d3;
+            --text-dark: #333333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: var(--text-dark);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Header: Shivay Brand Logo & Shlok --- */
+        .top-header {
+            background-color: #ffffff;
+            color: var(--tcs-blue);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--tcs-blue);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .shivay-logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--tcs-orange) 0%, #ffffff 50%, #128807 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            color: var(--tcs-blue);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            border: 2px solid var(--tcs-blue);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--tcs-blue);
+        }
+
+        .brand-subtitle {
+            font-size: 9px;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .shlok-container {
+            text-align: center;
+            font-style: italic;
+            color: #d35400;
+            font-weight: bold;
+            font-size: 13px;
+            background: #fff3e0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px dashed var(--tcs-orange);
+            max-width: 45%;
+        }
+
+        .exam-title-badge {
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--tcs-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* --- Screens & Overlays --- */
+        .full-screen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 44, 89, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .portal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            border-top: 5px solid var(--tcs-orange);
+        }
+
+        .instruction-box {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 95%;
+            max-width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-top: 5px solid var(--tcs-blue);
+            text-align: left;
+        }
+
+        .instruction-box h2 {
+            color: var(--tcs-blue);
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* --- Common UI elements --- */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--tcs-blue);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .btn-action {
+            background-color: var(--tcs-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: var(--tcs-light-blue);
+        }
+
+        /* --- Instruction Legend Cards --- */
+        .inst-legend {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .inst-color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            border: 1px solid #ccc;
+        }
+
+        /* --- Main Exam Layout Split --- */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left 70% Questionnaire Area */
+        .question-panel {
+            width: 70%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .q-header-bar {
+            background-color: #f4f7f9;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lang-selector-top select {
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+        }
+
+        .question-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .q-num-badge {
+            background-color: var(--tcs-blue);
+            color: white;
+            padding: 4px 10px;
+            font-weight: bold;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        .q-text-section {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .lang-text {
+            margin-bottom: 12px;
+        }
+
+        .lang-text.hindi {
+            color: #1a5276;
+            font-weight: 500;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .option-label:hover {
+            background-color: #f0f4f8;
+            border-color: var(--tcs-light-blue);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--tcs-blue);
+        }
+
+        /* Right 30% Sidebar Panel */
+        .sidebar-panel {
+            width: 30%;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .candidate-card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .photo-box {
+            width: 65px;
+            height: 80px;
+            border: 1px solid var(--border-color);
+            background-color: #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .candidate-info {
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .candidate-info strong {
+            color: var(--tcs-blue);
+            font-size: 14px;
+        }
+
+        .timer-container {
+            background-color: #ffebee;
+            color: var(--red-unanswered);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Grid Palette Scroll */
+        .palette-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .palette-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .grid-matrix {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .grid-item {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background-color: var(--gray-unvisited);
+            color: #333;
+            font-size: 11
